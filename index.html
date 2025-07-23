@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Go to Glow - Hair Salon</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Reset and Basic Styles */
+        :root {
+            --orange: #ff6a00;
+            --dark-gray: #1f1f1f;
+            --medium-gray: #454545;
+            --light-gray: #fafafa;
+            --background-white: #ffffff;
+            --off-white: #fff9f5;
+            --star-yellow: #f59309;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--background-white);
+            color: var(--dark-gray);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6, .logo {
+            font-family: 'Lora', serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        section {
+            padding: 80px 5%;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-dark {
+            background-color: var(--dark-gray);
+            color: var(--background-white);
+        }
+
+        .btn-dark:hover {
+            opacity: 0.8;
+        }
+
+        .btn-orange {
+            background-color: var(--orange);
+            color: var(--background-white);
+        }
+
+        .btn-orange:hover {
+            opacity: 0.8;
+        }
+        
+        .section-tag {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .section-tag .line {
+            width: 30px;
+            height: 2px;
+            background-color: var(--dark-gray);
+        }
+
+        /* Animate on Scroll */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+
+        /* --- Navbar --- */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+
+        .navbar .logo {
+            font-size: 28px;
+            font-weight: 500;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-menu a {
+            font-size: 16px;
+            color: var(--medium-gray);
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--dark-gray);
+        }
+
+        /* Language Toggle Styles */
+.language-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 15px;
+}
+.language-flag {
+    width: 40px;
+    height: 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.language-flag:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+.language-flag.en-flag {
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="1200" height="600"><clipPath id="a"><path d="M0 0v30h60V0z"/></clipPath><clipPath id="b"><path d="M0 0v30h60V0z"/></clipPath><g clip-path="url(%23a)"><path d="M0 0v30h60V0z" fill="%23012169"/><path d="M0 0l60 30m0-30L0 30" stroke="%23fff" stroke-width="6"/><path d="M0 0l60 30m0-30L0 30" clip-path="url(%23b)" stroke="%23C8102E" stroke-width="4"/><path d="M0 15h60M30 0v30" stroke="%23fff" stroke-width="10"/><path d="M0 15h60M30 0v30" clip-path="url(%23b)" stroke="%23C8102E" stroke-width="6"/></g></svg>');
+}
+.language-flag.ar-flag {
+    background-image: url('data:image/png;base64,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');
+}
+
+        /* --- Hero Section --- */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 100px;
+            position: relative;
+            background: linear-gradient(to bottom, rgba(255,255,255,0) 80%, var(--off-white) 100%);
+        }
+
+        .hero-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .hero-text {
+            max-width: 500px;
+        }
+
+        .hero-reviews {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .hero-reviews .review-images {
+            display: flex;
+        }
+
+        .hero-reviews .review-images img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            margin-left: -15px;
+        }
+        .hero-reviews .review-images img:first-child {
+            margin-left: 0;
+        }
+
+        .hero-reviews .review-text {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            line-height: 1.3;
+        }
+
+        .hero-reviews .review-text p {
+            margin: 0;
+        }
+
+        .hero-text h1 {
+            font-size: 60px;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+
+        .hero-text p {
+            font-size: 18px;
+            color: var(--medium-gray);
+            margin-bottom: 30px;
+        }
+
+        .hero-images {
+            position: relative;
+            width: 50%;
+            height: 600px;
+        }
+
+        .hero-images img {
+            position: absolute;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero-images .hero-img-1 {
+            width: 60%;
+            top: 0;
+            left: 10%;
+            z-index: 2;
+        }
+
+        .hero-images .hero-img-2 {
+            width: 55%;
+            top: 25%;
+            right: 0;
+            transform: rotate(10deg);
+            z-index: 1;
+        }
+        
+        .hero-images .hero-img-3 {
+            width: 55%;
+            top: 45%;
+            left: -5%;
+            transform: rotate(-9deg);
+            z-index: 3;
+        }
+
+        /* --- Testimonial Section --- */
+        .testimonial-section {
+            background-color: var(--off-white);
+            text-align: center;
+        }
+
+        .testimonial-section .stars {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-section .stars svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--star-yellow);
+        }
+
+        .testimonial-section .quote {
+            font-size: 24px;
+            font-weight: 500;
+            max-width: 700px;
+            margin: 0 auto 20px;
+        }
+
+        .testimonial-section .user {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .testimonial-section .user img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+        .testimonial-section .user-info p {
+            text-align: left;
+        }
+        .testimonial-section .user-info .name {
+            font-weight: 600;
+        }
+        .testimonial-section .user-info .service {
+            font-size: 14px;
+            color: var(--medium-gray);
+        }
+
+
+        /* --- Problem & Solution Section --- */
+        .problem-solution-section {
+            display: flex;
+            gap: 40px;
+        }
+
+        .problem-col, .solution-col {
+            flex: 1;
+        }
+
+        .problem-col h2, .solution-col h2 {
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+
+        .card-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .problem-card, .solution-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .icon-wrapper {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .problem-card .icon-wrapper {
+            background-color: var(--off-white);
+        }
+        .solution-card .icon-wrapper {
+            background-color: var(--orange);
+        }
+        .icon-wrapper img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .card-text h4 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        .card-text p {
+            color: var(--medium-gray);
+        }
+
+        /* --- Services Section --- */
+        .services-section {
+            text-align: center;
+            background-color: var(--background-white);
+        }
+        .services-section h2 {
+            font-size: 40px;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        .services-carousel {
+            /* JS will handle this */
+            position: relative;
+            overflow: hidden;
+            cursor: grab;
+        }
+        .services-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+        .service-card {
+            flex: 0 0 30%;
+            margin: 0 15px;
+            background: var(--light-gray);
+            border-radius: 24px;
+            overflow: hidden;
+            text-align: left;
+            padding: 20px;
+            transition: transform 0.4s ease, opacity 0.4s ease;
+        }
+        
+        .service-card .card-image {
+            width: 100%;
+            height: 250px;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .service-card .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .price-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--orange);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .service-card h5 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+        .service-card p {
+            color: var(--medium-gray);
+            font-size: 16px;
+        }
+
+        /* --- About Section --- */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .about-text h3 {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+        .about-text > p {
+            color: var(--medium-gray);
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        .about-image {
+            border-radius: 24px;
+            overflow: hidden;
+            height: 450px;
+        }
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .bullets-wrapper {
+            display: grid;
+            gap: 20px;
+        }
+        .bullet-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        .bullet-point .icon-wrapper {
+            width: 40px;
+            height: 40px;
+            background-color: var(--orange);
+        }
+        .bullet-point .icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+        .bullet-text .bullet-title {
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .bullet-text .bullet-desc {
+            color: var(--medium-gray);
+        }
+
+        /* --- FAQ Section --- */
+        .faq-section {
+            background-color: var(--light-gray);
+        }
+        .faq-section .heading-wrapper {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .faq-section .heading-wrapper h2 {
+            font-size: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            border-bottom: 1px solid #eee;
+        }
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+        .faq-item.open {
+             background-color: var(--off-white);
+        }
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .faq-question h4 {
+            font-size: 20px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .faq-icon {
+            width: 32px;
+            height: 32px;
+            background-color: var(--orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        .faq-icon svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding-top 0.5s ease;
+        }
+        .faq-answer p {
+            color: var(--medium-gray);
+            line-height: 1.6;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 200px; /* Adjust as needed */
+            padding-top: 15px;
+        }
+
+        /* --- Contact Section --- */
+        .contact-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 60px;
+            align-items: center;
+            background-color: var(--off-white);
+            padding: 60px;
+            border-radius: 24px;
+        }
+        .contact-info h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .contact-form label {
+            display: block;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+        .contact-form input,
+        .contact-form select,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+        .form-row > * {
+            flex: 1;
+        }
+
+        /* --- Gallery Section --- */
+        .gallery-section .heading-wrapper {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .gallery-section h2 {
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 250px);
+            gap: 20px;
+        }
+        .gallery-item {
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        .gallery-item-1 {
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+        }
+
+        /* --- Footer --- */
+        .footer {
+            background-color: var(--light-gray);
+            padding: 80px 5%;
+        }
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .footer-col h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        .footer-brand .logo {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+        .footer-brand p {
+            color: var(--medium-gray);
+            max-width: 250px;
+            margin-bottom: 20px;
+        }
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        .footer-col ul li a {
+            color: var(--medium-gray);
+        }
+        .footer-col ul li a:hover {
+            color: var(--dark-gray);
+        }
+        .contact-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .contact-link .icon-wrapper {
+            width: 32px;
+            height: 32px;
+            background-color: var(--orange);
+        }
+        .contact-link .icon-wrapper svg {
+            width: 16px;
+            height: 16px;
+            fill: white;
+        }
+        
+        /* --- Responsive --- */
+        @media (max-width: 1024px) {
+            .hero-text h1 { font-size: 48px; }
+            .hero-images { height: 500px; }
+            .problem-solution-section { flex-direction: column; }
+            .about-grid { grid-template-columns: 1fr; }
+            .about-grid .about-text { order: 2; }
+            .contact-container { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(3, 220px); }
+            .gallery-item-1 { grid-column: 1 / 3; grid-row: 1 / 2; }
+            .gallery-item-2 { grid-column: 1 / 2; grid-row: 2 / 3; }
+            .gallery-item-3 { grid-column: 2 / 3; grid-row: 2 / 3; }
+            .gallery-item-4 { grid-column: 1 / 2; grid-row: 3 / 4; }
+            .gallery-item-5 { grid-column: 2 / 3; grid-row: 3 / 4; }
+            .footer-container { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 60px 5%; }
+            .navbar { flex-wrap: wrap; }
+            .nav-menu { display: none; /* Add JS for hamburger menu */ }
+            .hero-container { flex-direction: column; text-align: center; }
+            .hero-text { order: 2; }
+            .hero-images { order: 1; width: 100%; height: 400px; margin-bottom: 30px; }
+            .hero-reviews { justify-content: center; }
+            .hero-text h1 { font-size: 40px; }
+            .service-card { flex: 0 0 45%; }
+            .form-row { flex-direction: column; gap: 15px; }
+            .footer-container { grid-template-columns: 1fr; text-align: center; }
+            .footer-brand p { margin-left: auto; margin-right: auto; }
+            .footer-col ul { text-align: center; }
+            .contact-link { justify-content: center; }
+        }
+        
+    </style>
+</head>
+<body>
+    <header class="hero-section">
+        <nav class="navbar">
+            <div class="logo">Go to Glow</div>
+            <ul class="nav-menu">
+                <li><a href="#about">About</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#process">Process</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+            </ul>
+            <div class="navbar-right" style="display: flex; align-items: center;">
+                <a href="tel:+21626147536" class="btn btn-dark">Contact us</a>
+                <div class="language-toggle">
+                    <div class="language-flag en-flag" onclick="window.location.href='index.html'"></div>
+                    <div class="language-flag ar-flag" onclick="window.location.href='indexAR.html'"></div>
+                </div>
+            </div>
+        </nav>
+        <div class="container hero-container">
+            <div class="hero-text fade-in-up">
+                <div class="hero-reviews">
+                    <div class="review-images">
+                        <img src="https://framerusercontent.com/images/L5hGg9cDY7Paq8x6XXI5RcsIU.jpg" alt="Customer 1">
+                        <img src="https://framerusercontent.com/images/RuHzOwFMTuFko0uX7XGtl6t0vck.jpg" alt="Customer 2">
+                        <img src="https://framerusercontent.com/images/DVp5BoKelew8Se8b7VAcDHqTk7M.jpg" alt="Customer 3">
+                    </div>
+                    <div class="review-text">
+                        <p><strong>1000+</strong></p>
+                        <p>Happy customers</p>
+                    </div>
+                </div>
+                <h1>Let your hair shine with strength & beauty</h1>
+                <p>A haircut is just the beginning. Experience hair artistry that enhances your beauty and boosts your confidence.</p>
+                <a href="https://www.instagram.com/go.to.glow_/" target="_blank" class="btn btn-orange">Book an appointment</a>
+            </div>
+            <div class="hero-images fade-in-up">
+                <img src="https://framerusercontent.com/images/dZEpcnHnY1537g0DHOfvzdOx4.webp" alt="Model with beautiful hair" class="hero-img-1">
+                <img src="https://framerusercontent.com/images/vow8aT2ZiPX6Uqxurh8dm0zePnQ.jpg" alt="Model with beautiful hair" class="hero-img-2">
+                <img src="https://framerusercontent.com/images/aKWr7Jsb6awIHzNIYHZov7G64M.jpg" alt="Model with beautiful hair" class="hero-img-3">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="testimonial-section fade-in-up">
+            <div class="container">
+                <div class="stars">
+                    <!-- Star SVG repeated 5 times -->
+                    <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                    <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                    <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                    <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                    <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                </div>
+                <p class="quote">"The stylists at Go to Glow guided me through every step of my hair transformation with amazing expert care."</p>
+                <div class="user">
+                    <img src="https://framerusercontent.com/images/wMD10jBGahjvwMwmo2JMi26s.png" alt="Amira Trabelsi">
+                    <div class="user-info">
+                        <p class="name">Amira Trabelsi</p>
+                        <p class="service">Balayage & Styling</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container fade-in-up">
+            <div class="problem-solution-section">
+                <div class="problem-col">
+                    <div class="section-tag">
+                        <div class="line"></div>
+                        <span>Problem</span>
+                    </div>
+                    <h2>Common hair problems you may experience</h2>
+                    <div class="card-grid">
+                        <div class="problem-card">
+                            <div class="icon-wrapper"><img src="https://framerusercontent.com/images/QfyNjZmQlRsqAqNx0q951uMwB0.svg" alt="Frizzy hair icon"></div>
+                            <div class="card-text">
+                                <h4>Frizzy hairs</h4>
+                                <p>Hair that constantly looks dry, frizzy, and difficult to style.</p>
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <div class="icon-wrapper"><img src="https://framerusercontent.com/images/Ef6dB3fm2MK8ha7iUXohFr0vILE.svg" alt="Damaged hair icon"></div>
+                            <div class="card-text">
+                                <h4>Damaged</h4>
+                                <p>Hair that feels weak, breaks easily, and looks lifeless.</p>
+                            </div>
+                        </div>
+                        <div class="problem-card">
+                            <div class="icon-wrapper"><img src="https://framerusercontent.com/images/gWMtixDuqF2F7KoAE9IBXghNjc.svg" alt="Thinning hair icon"></div>
+                            <div class="card-text">
+                                <h4>Thinning hair</h4>
+                                <p>Lack of volume and density, making your hair look limp.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="solution-col">
+                    <div class="section-tag">
+                        <div class="line"></div>
+                        <span>Solution</span>
+                    </div>
+                    <h2>This is how we bring your hair back to life</h2>
+                    <div class="card-grid">
+                        <div class="solution-card">
+                            <div class="icon-wrapper"><img src="https://framerusercontent.com/images/JnlMLr2tYz889S4wtzsthVytUC0.svg" alt="Hydration icon"></div>
+                            <div class="card-text">
+                                <h4>Deep hydration</h4>
+                                <p>Our keratin and moisture-rich treatments smooth frizz.</p>
+                            </div>
+                        </div>
+                        <div class="solution-card">
+                            <div class="icon-wrapper"><img src="https://framerusercontent.com/images/Han2fj6Vjt1NaKcypg1p1Do7HAQ.svg" alt="Repair icon"></div>
+                            <div class="card-text">
+                                <h4>Repair hairs</h4>
+                                <p>We use nourishing treatments and bond-repair formulas.</p>
+                            </div>
+                        </div>
+                        <div class="solution-card">
+                            <div class="icon-wrapper"><img src="https://framerusercontent.com/images/i173cadKyslUwZnN7wOj4wVA7Ys.svg" alt="Fullness icon"></div>
+                            <div class="card-text">
+                                <h4>Add fullness</h4>
+                                <p>From precision cuts to volumizing treatments and extensions.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services-section fade-in-up" id="services">
+            <div class="container">
+                <div class="section-tag" style="justify-content: center;">
+                    <div class="line"></div>
+                    <span>Services</span>
+                </div>
+                <h2>Expert premium hair services tailored for you</h2>
+                <div class="services-carousel">
+                    <div class="services-track">
+                        <!-- Service Card 1 -->
+                        <div class="service-card">
+                            <div class="card-image">
+                                <img src="https://framerusercontent.com/images/WBUsZbdIaQQO0T0IRFLBzmYKZIM.jpg" alt="Precision Haircuts">
+                                <div class="price-tag">99 TND</div>
+                            </div>
+                            <h5>Precision Haircuts</h5>
+                            <p>Enhance your look with a perfectly tailored cut and styling.</p>
+                        </div>
+                        <!-- Service Card 2 -->
+                        <div class="service-card">
+                             <div class="card-image">
+                                <img src="https://framerusercontent.com/images/wznTXN7RoaKIpX8t0YmTodhfUxw.jpg" alt="Customized hair coloring">
+                                <div class="price-tag">79 TND</div>
+                            </div>
+                            <h5>Customized hair coloring</h5>
+                            <p>Achieve rich, dimensional color that complements your style.</p>
+                        </div>
+                        <!-- Service Card 3 -->
+                        <div class="service-card">
+                             <div class="card-image">
+                                <img src="https://framerusercontent.com/images/F25cJSjgKiKMhLaLKods0MQ2s.jpg" alt="Deep conditioning">
+                                <div class="price-tag">99 TND</div>
+                            </div>
+                            <h5>Deep conditioning</h5>
+                            <p>Transform your hair with proper care from our skilled stylists.</p>
+                        </div>
+                         <!-- Cloned Cards for seamless loop -->
+                        <div class="service-card">
+                            <div class="card-image">
+                                <img src="https://framerusercontent.com/images/WBUsZbdIaQQO0T0IRFLBzmYKZIM.jpg" alt="Precision Haircuts">
+                                <div class="price-tag">99 TND</div>
+                            </div>
+                            <h5>Precision Haircuts</h5>
+                            <p>Enhance your look with a perfectly tailored cut and styling.</p>
+                        </div>
+                        <div class="service-card">
+                             <div class="card-image">
+                                <img src="https://framerusercontent.com/images/wznTXN7RoaKIpX8t0YmTodhfUxw.jpg" alt="Customized hair coloring">
+                                <div class="price-tag">79 TND</div>
+                            </div>
+                            <h5>Customized hair coloring</h5>
+                            <p>Achieve rich, dimensional color that complements your style.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="container fade-in-up" id="about">
+             <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://framerusercontent.com/images/0KkbgGAjJJTkCMgIXPzNZhuzGx8.jpg" alt="About Velvera Salon">
+                </div>
+                <div class="about-text">
+                    <div class="section-tag">
+                        <div class="line"></div>
+                        <span>Introduction</span>
+                    </div>
+                    <h3>Welcome to <span>Go to Glow</span>, your destination for hair care</h3>
+                    <p>We combine expert techniques with premium products to give your hair the care it deserves. From styling to treatments, we ensure every visit leaves you feeling confident & careful.</p>
+                    <a href="#contact" class="btn btn-orange">Get Expert Care</a>
+                </div>
+            </div>
+             <div class="about-grid" style="margin-top: 80px;">
+                <div class="about-text">
+                    <div class="section-tag">
+                        <div class="line"></div>
+                        <span>Why choose us</span>
+                    </div>
+                    <h3>Why <span>Go to Glow</span> is the right choice for your hair</h3>
+                     <div class="bullets-wrapper">
+                        <div class="bullet-point">
+                            <div class="icon-wrapper"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg></div>
+                            <div class="bullet-text">
+                                <p class="bullet-title">Expertise</p>
+                                <p class="bullet-desc">Precision styling by skilled professionals</p>
+                            </div>
+                        </div>
+                        <div class="bullet-point">
+                            <div class="icon-wrapper"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg></div>
+                            <div class="bullet-text">
+                                <p class="bullet-title">Quality</p>
+                                <p class="bullet-desc">Top-tier products for lasting results</p>
+                            </div>
+                        </div>
+                        <div class="bullet-point">
+                            <div class="icon-wrapper"><svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg></div>
+                            <div class="bullet-text">
+                                <p class="bullet-title">Personalization</p>
+                                <p class="bullet-desc">Tailored care for your unique hair</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="about-image">
+                    <img src="https://framerusercontent.com/images/pl8KtZDJfmFPHF6wUBHGoIuHCaQ.jpg" alt="Why choose Velvera">
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section fade-in-up" id="process">
+            <div class="container">
+                <div class="heading-wrapper">
+                    <div class="section-tag" style="justify-content: center;">
+                        <div class="line"></div>
+                        <span>FAQ</span>
+                    </div>
+                    <h2>Answers to your most common questions</h2>
+                </div>
+                <div class="faq-container">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How often should I get a haircut?</h4>
+                            <div class="faq-icon"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></svg></div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>It depends on your hair type and style. For maintaining shape and health, we recommend trimming every 6-8 weeks for most hair types.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Do you offer hair treatments for damaged hair?</h4>
+                            <div class="faq-icon"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></svg></div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Absolutely! We offer a range of restorative treatments, including deep conditioning, keratin, and bond-repair therapies to bring your hair back to life.</p>
+                        </div>
+                    </div>
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Can I book an appointment online?</h4>
+                            <div class="faq-icon"><svg viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path></svg></div>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Yes, you can easily book your appointment through the contact form on our website. Simply select your preferred service, date, and time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-section fade-in-up" id="contact">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-info">
+                        <h2>Get in touch with Velvera experts</h2>
+                        <div class="testimonial-section" style="padding: 0; text-align: left; background: none;">
+                             <div class="user">
+                                <img src="https://framerusercontent.com/images/tOD4UiwN4XShQxBFw0V7t06FA.jpg" alt="Fatma Khelil">
+                                <div class="user-info">
+                                    <p class="name">Fatma Khelil</p>
+                                    <p class="service">Hair styling and color</p>
+                                </div>
+                            </div>
+                            <p class="quote" style="text-align: left; font-size: 18px; margin: 20px 0 0 0; max-width: 100%;">"The team at Go to Glow truly understands hair! From consultation to styling, they made me feel confident and beautiful."</p>
+                            <div class="stars" style="justify-content: flex-start; margin-top: 15px;">
+                                <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                                <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                                <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                                <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                                <svg viewBox="0 0 256 256"><path d="M234.29,114.85l-45,38.83L203,211.75a16.4,16.4,0,0,1-24.5,17.82L128,198.49,77.47,229.57A16.4,16.4,0,0,1,53,211.75l13.76-58.07-45-38.83A16.46,16.46,0,0,1,31.08,86l59-4.76,22.76-55.08a16.36,16.36,0,0,1,30.27,0l22.75,55.08,59,4.76a16.46,16.46,0,0,1,9.37,28.86Z"></path></svg>
+                            </div>
+                        </div>
+                    </div>
+                    <form class="contact-form" id="contactForm">
+                        <div class="form-row">
+                            <label>Full Name
+                                <input type="text" name="Name" placeholder="Sarra Bouazizi" required>
+                            </label>
+                            <label>Phone Number
+                                <input type="tel" name="Phone" placeholder="+216 26147536" required>
+                            </label>
+                        </div>
+                        <label>Preferred service
+                            <select name="Service" required>
+                                <option value="" disabled selected>Select…</option>
+                                <option value="Cutting">Cutting</option>
+                                <option value="Color">Color</option>
+                                <option value="Styling">Styling</option>
+                                <option value="Treatment">Treatment</option>
+                            </select>
+                        </label>
+                        <label>Appointment Date
+                            <input type="date" name="Date" required>
+                        </label>
+                        <label>Message
+                            <textarea name="Message" placeholder="Additional requests"></textarea>
+                        </label>
+                        <button type="submit" class="btn btn-orange" style="width: 100%;">Book Appointment</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-section fade-in-up" id="reviews">
+             <div class="container">
+                <div class="heading-wrapper">
+                    <div class="section-tag" style="justify-content: center;">
+                        <div class="line"></div>
+                        <span>Gallery</span>
+                    </div>
+                    <h2>Explore our transformations and hair makeovers</h2>
+                    <a href="https://www.instagram.com/go.to.glow_/" target="_blank" class="btn btn-dark">More on Instagram</a>
+                </div>
+                <div class="gallery-grid">
+                    <div class="gallery-item gallery-item-1"><img src="https://framerusercontent.com/images/QbSuWYDSHXcEzbQFa215TxqpmOo.jpg" alt="Gallery image 1"></div>
+                    <div class="gallery-item gallery-item-2"><img src="https://framerusercontent.com/images/8v5NNmvvmuOAuVTdhlxvSRSjTU.jpg" alt="Gallery image 2"></div>
+                    <div class="gallery-item gallery-item-3"><img src="https://framerusercontent.com/images/m455LRAidPOrFX87s3wP38TCw.jpg" alt="Gallery image 3"></div>
+                    <div class="gallery-item gallery-item-4"><img src="https://framerusercontent.com/images/vow8aT2ZiPX6Uqxurh8dm0zePnQ.jpg" alt="Gallery image 4"></div>
+                    <div class="gallery-item gallery-item-5"><img src="https://framerusercontent.com/images/rC9bP94CeVadqhrTryYCmkFzNU.jpg" alt="Gallery image 5"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col footer-brand">
+                <div class="logo">Go to Glow</div>
+                <!-- Removed "A modern Framer template for premium Hair salons." -->
+                <!-- Made in Framer link can be added here if needed -->
+            </div>
+            <div class="footer-col">
+                <h4>Menu</h4>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#reviews">Reviews</a></li>
+                    <li><a href="#process">How it works</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Socials</h4>
+                 <ul>
+                    <li><a href="https://www.instagram.com/go.to.glow_/" target="_blank">Instagram</a></li>
+                    <!-- Removed Dribbble, Twitter, YouTube -->
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Info</h4>
+                <ul>
+                    <li>
+                        <a href="tel:+21626147536" class="contact-link">
+                            <div class="icon-wrapper"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"></path></svg></div>
+                            <span>+216 26147536</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="mailto:gotoglowcenter@gmail.com" class="contact-link">
+                            <div class="icon-wrapper"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg></div>
+                            <span>gotoglowcenter@gmail.com</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Ensure page starts from top on reload
+        window.onload = function() {
+            window.scrollTo(0, 0);
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Animate on Scroll ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1
+            });
+
+            const elementsToAnimate = document.querySelectorAll('.fade-in-up');
+            elementsToAnimate.forEach(el => observer.observe(el));
+
+            // --- FAQ Accordion ---
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const isOpen = item.classList.contains('open');
+                    
+                    // Close all items
+                    faqItems.forEach(i => i.classList.remove('open'));
+
+                    // If the clicked item was not open, open it
+                    if (!isOpen) {
+                        item.classList.add('open');
+                    }
+                });
+            });
+
+            // --- Services Carousel (Draggable) ---
+            const track = document.querySelector('.services-track');
+            if (track) {
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                let currentTranslate = 0;
+                let startTranslate = 0;
+
+                track.addEventListener('mousedown', (e) => {
+                    isDown = true;
+                    track.classList.add('active');
+                    startX = e.pageX - track.offsetLeft;
+                    startTranslate = getTranslateX(track);
+                });
+
+                track.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    track.classList.remove('active');
+                });
+
+                track.addEventListener('mouseup', () => {
+                    isDown = false;
+                    track.classList.remove('active');
+                });
+
+                track.addEventListener('mousemove', (e) => {
+                    if (!isDown) return;
+                    e.preventDefault();
+                    const x = e.pageX - track.offsetLeft;
+                    const walk = (x - startX) * 2; // The multiplier affects drag speed
+                    currentTranslate = startTranslate + walk;
+                    
+                    const maxTranslate = 0;
+                    const minTranslate = -(track.scrollWidth / 2); // Since we have cloned items
+                    
+                    if (currentTranslate > maxTranslate) currentTranslate = maxTranslate;
+                    if (currentTranslate < minTranslate) currentTranslate = minTranslate;
+
+                    track.style.transform = `translateX(${currentTranslate}px)`;
+
+                    // Infinite loop logic
+                    if (currentTranslate <= minTranslate + 1) {
+                         startTranslate += track.scrollWidth / 2;
+                         track.style.transform = `translateX(${startTranslate + walk}px)`;
+                    }
+                     if (currentTranslate >= -1) {
+                         startTranslate -= track.scrollWidth / 2;
+                         track.style.transform = `translateX(${startTranslate + walk}px)`;
+                    }
+                });
+
+                function getTranslateX(element) {
+                    const style = window.getComputedStyle(element);
+                    const matrix = new DOMMatrixReadOnly(style.transform);
+                    return matrix.m41;
+                }
+            }
+
+            // --- Contact Form Submission ---
+            const contactForm = document.getElementById('contactForm');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    // Collect form data
+                    const formData = new FormData(event.target);
+                    const data = {
+                        name: formData.get('Name') || 'Sarra Bouazizi',
+                        phone: formData.get('Phone'),
+                        service: formData.get('Service'),
+                        date: formData.get('Date'),
+                        message: formData.get('Message') || 'No additional message'
+                    };
+                    
+                    // Validate required fields
+                    if (!data.name || !data.phone || !data.service || !data.date) {
+                        alert('Please fill in all required fields');
+                        return;
+                    }
+                    
+                    // Prepare a more readable WhatsApp message
+                    const whatsappMessage = `🌟 New Booking Request 🌟
+
+📋 Booking Details:
+━━━━━━━━━━━━━━━━━
+
+👤 Name: ${data.name}
+📞 Phone Number: ${data.phone}
+
+💇‍♀️ Requested Service: ${data.service}
+📅 Date: ${data.date}
+
+📝 Additional Notes:
+${data.message}
+
+━━━━━━━━━━━━━━━━━
+🕒 Request Time: ${new Date().toLocaleString('en-US', { 
+    timeZone: 'Africa/Tunis', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit' 
+})}
+
+✨ Go to Glow Center ✨`;
+                    
+                    // Encode the message for URL
+                    const encodedMessage = encodeURIComponent(whatsappMessage);
+                    
+                    // Open WhatsApp with pre-filled message
+                    const whatsappUrl = `https://wa.me/+21626147536?text=${encodedMessage}`;
+                    
+                    try {
+                        // Attempt to open WhatsApp
+                        window.open(whatsappUrl, '_blank');
+                        
+                        // Show success message
+                        alert('Booking request sent. We will contact you soon!');
+                        
+                        // Reset the form
+                        event.target.reset();
+                    } catch (error) {
+                        // Fallback error handling
+                        console.error('An error occurred:', error);
+                        alert('Sorry, an error occurred. Please try again or contact us directly.');
+                    }
+                });
+            } else {
+                console.error('Contact form not found');
+            }
+        });
+    </script>
+</body>
+</html>
